@@ -1,0 +1,16 @@
+# Render Blueprint for Moodalyx (FastAPI + TensorFlow/Keras BiGRU + static frontend).
+# Render ignores runtime.txt; PYTHON_VERSION pins the interpreter (TensorFlow 2.17 needs Python <= 3.12).
+services:
+  - type: web
+    name: moodalyx
+    runtime: python
+    plan: free
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.14
+      - key: TF_CPP_MIN_LOG_LEVEL
+        value: "2"
