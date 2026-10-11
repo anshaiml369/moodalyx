@@ -1,4 +1,4 @@
-/* Text Emotion Classifier — frontend logic. Talks to main.py: GET /health, POST /predict. */
+/* Moodalyx — frontend logic. Talks to main.py: GET /health, POST /predict. */
 (function () {
   "use strict";
   const { $, $$, el, api, fmt, renderBars, renderMatrix, plotXY, legend, setBusy, setStatus, callout, toast } = window.RUI;

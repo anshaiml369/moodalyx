@@ -1,4 +1,4 @@
-# Text emotion classifier — bidirectional GRU on dair-ai/emotion
+# Moodalyx — six-emotion text classifier (bidirectional GRU on dair-ai/emotion)
 
 A portfolio project that began from a YouTube tutorial and was extended with a research interface, re-evaluation of the shipped model (per-class metrics, calibration, error analysis) and documented limitations. In short: a two-layer bidirectional GRU that predicts one of six emotion labels
 (sadness, joy, love, anger, fear, surprise) for short English text, served by FastAPI with an HTML/CSS/JavaScript
