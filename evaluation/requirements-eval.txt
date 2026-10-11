@@ -1,0 +1,2 @@
+datasets>=2.19
+pyarrow<18  # keep NumPy 1.26 for TensorFlow 2.17

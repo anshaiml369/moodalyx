@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Text Emotion Classifier — BiGRU on dair-ai/emotion</title>
+  <meta name="description" content="Interactive NLP research interface for a bidirectional GRU that predicts one of six emotion labels from English text. Tutorial-based portfolio project, extended with a research interface and evaluation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/core.css">
+  <link rel="stylesheet" href="/static/css/app.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d5c56'/%3E%3Cpath d='M7 20h3v-6H7zm5 0h3V9h-3zm5 0h3v-9h-3zm5 0h3v-4h-3z' fill='%23fff'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="app-header">
+  <div class="container">
+    <a class="brand" href="#top" aria-label="Text emotion classifier, top of page">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M7 22h3v-7H7zm5 0h3V9h-3zm5 0h3v-10h-3zm5 0h3v-4h-3z" fill="#fff"/></svg>
+      <span>
+        <span class="brand-name">Text Emotion Classifier</span>
+        <span class="brand-sub">BiGRU · dair-ai/emotion · 6 labels</span>
+      </span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <nav class="header-nav" id="site-nav" aria-label="Sections">
+      <a href="#analyse">Analyse</a>
+      <a href="#evaluation">Evaluation</a>
+      <a href="#method">Method</a>
+    </nav>
+    <span class="status header-status" id="api-status" data-state="busy"><span class="status-dot"></span><span class="status-text">Connecting…</span></span>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container" id="top">
+    <section class="page-intro">
+      <p class="eyebrow">Natural language processing · recurrent networks · multi-class classification</p>
+      <h1 class="page-title">Predicting emotion labels from short English text</h1>
+      <p class="page-lede">A two-layer bidirectional GRU, trained on 16,000 labelled sentences from the <em>dair-ai/emotion</em> dataset, assigns one of six labels: sadness, joy, love, anger, fear or surprise. Type a sentence to see the full probability distribution from the deployed model.</p>
+      <div class="callout callout-info scope-note">
+        <div>
+          <div class="callout-title">What this model does and does not do</div>
+          <p>It predicts which of the dataset's six labels a sentence most resembles. It does not measure anyone's actual emotional or psychological state, has no “neutral” option, and is most reliable on text similar to its training data (short, first-person sentences such as “i feel …”).</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================== ANALYSE ================== -->
+  <section class="section" id="analyse" aria-labelledby="analyse-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="analyse-title">Analyse text</h2>
+          <p class="section-desc">Each request goes to <code>POST /predict</code>, which cleans the text, tokenises it, pads it to 50 tokens and runs the BiGRU.</p>
+        </div>
+        <div class="segmented" role="group" aria-label="Input mode">
+          <button type="button" data-mode="single" aria-pressed="true">Single text</button>
+          <button type="button" data-mode="batch" aria-pressed="false">Compare several</button>
+        </div>
+      </div>
+
+      <div class="analyse-grid">
+        <form class="panel input-panel" id="text-form" novalidate>
+          <div class="panel-body stack">
+            <div class="field">
+              <label class="field-label" for="text-input"><span id="text-label">Text</span><span class="opt num" id="text-count">0 characters · 0 words</span></label>
+              <textarea class="textarea" id="text-input" rows="6" maxlength="2000" placeholder="e.g. i feel hopeful about the results of the experiment" aria-describedby="text-hint text-error"></textarea>
+              <span class="hint" id="text-hint">Up to 2,000 characters. Only the first 50 tokens are used by the model. Ctrl/⌘ + Enter to analyse.</span>
+              <span class="field-error" id="text-error" role="alert"></span>
+            </div>
+            <div class="row">
+              <button class="btn btn-primary" type="submit" id="analyse-btn"><span class="spinner" aria-hidden="true"></span><span class="btn-label">Analyse</span></button>
+              <button class="btn btn-ghost" type="button" id="clear-btn">Clear</button>
+            </div>
+            <div>
+              <span class="sample-label">Example sentences from the training notebook (cell 39) <span class="info-dot" tabindex="0" data-tip="These five sentences were used in final_clean.ipynb to sanity-check the model. The first one was misclassified there as “fear”.">i</span></span>
+              <div class="chip-list" id="examples"></div>
+            </div>
+          </div>
+        </form>
+
+        <div class="panel result-panel" aria-live="polite">
+          <div class="panel-head">
+            <h3 class="panel-title">Prediction</h3>
+            <span class="badge" id="result-badge">—</span>
+          </div>
+          <div class="panel-body" id="result-body">
+            <div class="empty-state">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 19h16M7 16V9M12 16V5M17 16v-4"/></svg>
+              <strong>No prediction yet</strong>
+              <span>Enter a sentence or pick an example to see all six class probabilities.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel history-panel" id="history-panel" hidden>
+        <div class="panel-head"><h3 class="panel-title">This session</h3><button class="btn btn-sm btn-ghost" type="button" id="history-clear">Clear</button></div>
+        <div class="table-wrap"><table class="table" id="history-table"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================== EVALUATION ================== -->
+  <section class="section" id="evaluation" aria-labelledby="eval-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="eval-title">Evaluation</h2>
+          <p class="section-desc">Figures marked <span class="provenance">re-evaluated</span> were computed from the shipped model on the 2,000-sentence test split by <code>evaluation/evaluate_artifact.py</code>, using the same cleaning as the API. Figures marked <span class="provenance">notebook</span> are copied from the training notebook's saved outputs.</p>
+        </div>
+      </div>
+      <div id="eval-root"><div class="grid-4"><div class="stat skeleton" style="height:96px"></div><div class="stat skeleton" style="height:96px"></div><div class="stat skeleton" style="height:96px"></div><div class="stat skeleton" style="height:96px"></div></div></div>
+    </div>
+  </section>
+
+  <!-- ================== METHOD ================== -->
+  <section class="section" id="method" aria-labelledby="method-title">
+    <div class="container">
+      <div class="section-head"><h2 class="section-title" id="method-title">How the model works</h2></div>
+
+      <ol class="flow" aria-label="Inference pipeline">
+        <li><span class="flow-k">1 · Clean</span><span>lower-case, drop apostrophes, replace non-alphanumerics with spaces, collapse whitespace</span><span class="flow-src mono">main.preprocess_text</span></li>
+        <li><span class="flow-k">2 · Tokenise</span><span>Keras <code>Tokenizer</code>: 10,000 most frequent training words; others become <code>&lt;unk&gt;</code></span><span class="flow-src mono">tokenizer.pkl</span></li>
+        <li><span class="flow-k">3 · Pad</span><span>post-pad or post-truncate to exactly 50 token ids</span><span class="flow-src mono">pad_sequences</span></li>
+        <li><span class="flow-k">4 · Encode</span><span>300-d embedding → BiGRU(128) → dropout → BiGRU(64) → dropout</span><span class="flow-src mono">BiGRU_Model.keras</span></li>
+        <li><span class="flow-k">5 · Classify</span><span>dense softmax over 6 labels; the API returns all probabilities and the arg-max</span><span class="flow-src mono">POST /predict</span></li>
+      </ol>
+
+      <div class="grid-2 method-grid">
+        <article class="panel">
+          <div class="panel-head"><h3 class="panel-title">Training setup</h3><span class="provenance">notebook cells 14–33</span></div>
+          <div class="panel-body">
+            <dl class="kv">
+              <dt>Data</dt><dd>dair-ai/emotion: 16,000 train / 2,000 test sentences (Saravia et al., 2018)</dd>
+              <dt>Objective</dt><dd>Sparse categorical cross-entropy with balanced class weights</dd>
+              <dt>Optimiser</dt><dd>Adam (Keras defaults), batch size 32, up to 20 epochs</dd>
+              <dt>Stopping</dt><dd>Early stopping on <code>val_loss</code>, patience 3, best weights restored (stopped after epoch 8; best epoch 5)</dd>
+              <dt>Parameters</dt><dd id="param-count">3,454,662 trainable</dd>
+              <dt>Serving</dt><dd>FastAPI + TensorFlow/Keras, model and tokenizer loaded once at start-up</dd>
+            </dl>
+          </div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><h3 class="panel-title">Limitations</h3></div>
+          <div class="panel-body">
+            <ol class="notes">
+              <li><strong>Optimistic test score.</strong> The notebook passed the test split as <code>validation_data</code> for early stopping, so the test set influenced model selection. The dataset's separate validation split was not used.</li>
+              <li><strong>Narrow domain.</strong> Training sentences are short English posts that mostly begin with “i feel …”. Other writing styles, sarcasm, negation and long text are not represented well.</li>
+              <li><strong>No neutral class.</strong> Every input is forced into one of six emotions, including factual or neutral sentences.</li>
+              <li><strong>Imbalanced labels.</strong> Surprise (66 test sentences) and love (159) have the lowest F1; class weights only partly compensate.</li>
+              <li><strong>Confidence is not certainty.</strong> High softmax probabilities can still be wrong — see the high-confidence errors above.</li>
+              <li><strong>Not a psychological instrument.</strong> Do not use the output to make decisions about people.</li>
+            </ol>
+          </div>
+        </article>
+      </div>
+
+      <article class="panel repro">
+        <div class="panel-head"><h3 class="panel-title">Reproduce</h3></div>
+        <div class="panel-body grid-2">
+<pre class="code">cd DL/EMOTION_TEXT_DL_NLP
+python3.11 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --port 8000</pre>
+<pre class="code"># optional: regenerate static/data/evaluation.json
+pip install -r evaluation/requirements-eval.txt
+python evaluation/evaluate_artifact.py</pre>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="app-footer">
+  <div class="container">
+    <p>Portfolio project by Ansh Agrawal, built from a YouTube tutorial and extended with a research interface, re-evaluation of the shipped model (per-class metrics, calibration, error analysis) and documented limitations. Not affiliated with, sponsored by or endorsed by any university or research institute. Outputs are predictions of dataset labels and can be wrong.</p>
+    <p class="mono">TensorFlow/Keras · FastAPI · dair-ai/emotion</p>
+  </div>
+</footer>
+
+<script src="/static/js/core.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

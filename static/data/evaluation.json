@@ -1,0 +1,264 @@
+{
+  "generated_at": "2026-10-11T06:22:00+00:00",
+  "script": "evaluation/evaluate_artifact.py",
+  "artifact": "BiGRU_Model.keras",
+  "dataset": "dair-ai/emotion (split config), test split",
+  "n": 2000,
+  "labels": [
+    "sadness",
+    "joy",
+    "love",
+    "anger",
+    "fear",
+    "surprise"
+  ],
+  "class_counts": [
+    581,
+    695,
+    159,
+    275,
+    224,
+    66
+  ],
+  "api_path": {
+    "accuracy": 0.921,
+    "macro_f1": 0.8800776600996163,
+    "weighted_f1": 0.9222532875214471,
+    "confusion_matrix": [
+      [
+        555,
+        1,
+        2,
+        13,
+        9,
+        1
+      ],
+      [
+        6,
+        636,
+        40,
+        3,
+        2,
+        8
+      ],
+      [
+        0,
+        19,
+        140,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        0,
+        0,
+        265,
+        3,
+        1
+      ],
+      [
+        5,
+        1,
+        3,
+        10,
+        192,
+        13
+      ],
+      [
+        0,
+        2,
+        0,
+        0,
+        10,
+        54
+      ]
+    ],
+    "per_class": [
+      {
+        "label": "sadness",
+        "precision": 0.9702797202797203,
+        "recall": 0.955249569707401,
+        "f1": 0.9627059843885516,
+        "support": 581
+      },
+      {
+        "label": "joy",
+        "precision": 0.9650986342943855,
+        "recall": 0.9151079136690647,
+        "f1": 0.9394387001477106,
+        "support": 695
+      },
+      {
+        "label": "love",
+        "precision": 0.7567567567567568,
+        "recall": 0.8805031446540881,
+        "f1": 0.813953488372093,
+        "support": 159
+      },
+      {
+        "label": "anger",
+        "precision": 0.9106529209621993,
+        "recall": 0.9636363636363636,
+        "f1": 0.9363957597173144,
+        "support": 275
+      },
+      {
+        "label": "fear",
+        "precision": 0.8888888888888888,
+        "recall": 0.8571428571428571,
+        "f1": 0.8727272727272727,
+        "support": 224
+      },
+      {
+        "label": "surprise",
+        "precision": 0.7012987012987013,
+        "recall": 0.8181818181818182,
+        "f1": 0.7552447552447552,
+        "support": 66
+      }
+    ]
+  },
+  "notebook_path": {
+    "accuracy": 0.921,
+    "macro_f1": 0.8800776600996163
+  },
+  "agreement_api_vs_notebook": 1.0,
+  "calibration": {
+    "bins": [
+      {
+        "lo": 0.30000000000000004,
+        "hi": 0.4,
+        "n": 3,
+        "mean_confidence": 0.34724903106689453,
+        "accuracy": 0.0
+      },
+      {
+        "lo": 0.4,
+        "hi": 0.5,
+        "n": 5,
+        "mean_confidence": 0.4285905957221985,
+        "accuracy": 0.8
+      },
+      {
+        "lo": 0.5,
+        "hi": 0.6000000000000001,
+        "n": 36,
+        "mean_confidence": 0.5455461144447327,
+        "accuracy": 0.4444444444444444
+      },
+      {
+        "lo": 0.6000000000000001,
+        "hi": 0.7000000000000001,
+        "n": 36,
+        "mean_confidence": 0.647528350353241,
+        "accuracy": 0.5
+      },
+      {
+        "lo": 0.7000000000000001,
+        "hi": 0.8,
+        "n": 43,
+        "mean_confidence": 0.7525119185447693,
+        "accuracy": 0.5116279069767442
+      },
+      {
+        "lo": 0.8,
+        "hi": 0.9,
+        "n": 81,
+        "mean_confidence": 0.8539800047874451,
+        "accuracy": 0.5802469135802469
+      },
+      {
+        "lo": 0.9,
+        "hi": 1.0,
+        "n": 1796,
+        "mean_confidence": 0.9949947595596313,
+        "accuracy": 0.9660356347438753
+      }
+    ],
+    "ece": 0.048195227950811347
+  },
+  "high_confidence_errors": [
+    {
+      "text": "i feel i should as a gracious gesture apologizing for my latest post about the osp and the rand license terms",
+      "true": "love",
+      "predicted": "joy",
+      "confidence": 0.998256504535675
+    },
+    {
+      "text": "i feel that poachers and others who kill animals for their pelts ivory or other parts should be punished severely i find hunting and fishing cruel",
+      "true": "sadness",
+      "predicted": "joy",
+      "confidence": 0.9977647066116333
+    },
+    {
+      "text": "i have not conducted a survey but it is quite likely that many of them feel as assaulted by onel s demons and other creators as i would have felt had the walls been covered only with eminent figures patriotic heroes and epic deeds",
+      "true": "sadness",
+      "predicted": "fear",
+      "confidence": 0.9974178075790405
+    },
+    {
+      "text": "i firmly believe that the only way to go about this craft is to write the book that you feel passionate about and not to worry about finding the book that the mass audience desires",
+      "true": "joy",
+      "predicted": "love",
+      "confidence": 0.9967377185821533
+    },
+    {
+      "text": "i feel unprotected a class post count link href http reprogramming in process",
+      "true": "sadness",
+      "predicted": "fear",
+      "confidence": 0.995703935623169
+    },
+    {
+      "text": "i feel like some of you have pains and you cannot imagine becoming passionate about the group or the idea that is causing pain",
+      "true": "joy",
+      "predicted": "love",
+      "confidence": 0.9953210949897766
+    },
+    {
+      "text": "i feel like if people accepted that wed get along a lot better",
+      "true": "love",
+      "predicted": "joy",
+      "confidence": 0.9942626357078552
+    },
+    {
+      "text": "i hate these feelings in my heart i hate that work stressed me out i hate that cornelius wont let me get my way im frustrated lord",
+      "true": "sadness",
+      "predicted": "anger",
+      "confidence": 0.9934951066970825
+    },
+    {
+      "text": "i feel so blessed to have friends i can come to",
+      "true": "joy",
+      "predicted": "love",
+      "confidence": 0.9933018684387207
+    },
+    {
+      "text": "i felt like id developed feelings for this guy thus explaining why id even follow this guy like a faithful puppy dog and he never knew",
+      "true": "joy",
+      "predicted": "love",
+      "confidence": 0.9932677745819092
+    },
+    {
+      "text": "i really dont like quinn because i feel like she will just end up hurting barney and i hated the lame ted robin storyline",
+      "true": "anger",
+      "predicted": "sadness",
+      "confidence": 0.9925669431686401
+    },
+    {
+      "text": "i feel so weird and scattered with all wonders about a million different things",
+      "true": "surprise",
+      "predicted": "fear",
+      "confidence": 0.9910169243812561
+    }
+  ],
+  "tokenizer": {
+    "num_words": 10000,
+    "word_index_size": 15213,
+    "mean_oov_rate_test": 0.033397613658297534
+  },
+  "model": {
+    "trainable_params": 3454662,
+    "max_sequence_length": 50
+  }
+}

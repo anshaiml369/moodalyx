@@ -1,0 +1,68 @@
+/* Text Emotion Classifier — project identity: clean NLP lab, warm white, deep teal. */
+:root {
+  --font-display: "Newsreader", Georgia, serif;
+  --bg: #faf9f7;
+  --surface: #ffffff;
+  --surface-2: #f3f2ee;
+  --surface-3: #e7e5df;
+  --border: #e4e2dc;
+  --border-strong: #cdcac1;
+  --text: #1d2321;
+  --text-muted: #56605c;
+  --text-faint: #8b9490;
+  --accent: #0d5c56;
+  --accent-hover: #09453f;
+  --accent-soft: #e2efed;
+}
+.page-title, .section-title { font-family: var(--font-display); font-weight: 600; }
+.page-title { font-size: 36px; }
+.section-title { font-size: 26px; }
+.scope-note { margin-top: var(--sp-5); max-width: 80ch; }
+.sample-label { display: block; font-size: var(--fs-xs); color: var(--text-muted); margin-bottom: 8px; }
+
+.analyse-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-5); align-items: start; }
+@media (max-width: 900px) { .analyse-grid { grid-template-columns: minmax(0, 1fr); } }
+.input-panel .textarea { font-size: var(--fs-md); line-height: 1.6; min-height: 170px; }
+.chip.example { font-size: var(--fs-xs); text-align: left; border-radius: var(--radius-md); }
+.chip .chip-tag { font-family: var(--font-mono); font-size: 10px; color: var(--text-faint); }
+
+.result-panel .panel-body { min-height: 360px; }
+.pred-hero { display: flex; align-items: center; gap: var(--sp-4); flex-wrap: wrap; }
+.pred-swatch { width: 44px; height: 44px; border-radius: 10px; flex: none; display: grid; place-items: center; color: #fff; font-family: var(--font-mono); font-weight: 600; font-size: 13px; }
+.pred-word { font-family: var(--font-display); font-size: 34px; font-weight: 600; text-transform: capitalize; line-height: 1; }
+.pred-sub { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-muted); margin-top: 6px; }
+.subhead { font-size: var(--fs-xs); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); }
+.cleaned { font-family: var(--font-mono); font-size: var(--fs-xs); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 8px 10px; overflow-wrap: anywhere; color: var(--text-muted); }
+.cleaned mark { background: var(--warn-soft); color: var(--warn); border-radius: 2px; }
+
+.history-panel { margin-top: var(--sp-5); }
+.history-panel td.text-cell { max-width: 520px; }
+.history-panel td.text-cell span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.label-cell { display: inline-flex; align-items: center; gap: 8px; text-transform: capitalize; white-space: nowrap; }
+.label-cell .bar-swatch { width: 9px; height: 9px; border-radius: 50%; }
+.dist { display: flex; height: 10px; width: 160px; border-radius: 999px; overflow: hidden; background: var(--surface-3); }
+.dist > span { height: 100%; }
+
+.eval-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-5); margin-top: var(--sp-5); }
+.eval-grid .span-all { grid-column: 1 / -1; }
+@media (max-width: 1000px) { .eval-grid { grid-template-columns: minmax(0, 1fr); } }
+.error-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.error-list li { padding: 10px 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; font-size: var(--fs-sm); }
+.error-list li:last-child { border-bottom: 0; }
+.error-list q { color: var(--text); font-style: italic; }
+.error-list .err-meta { font-size: var(--fs-xs); color: var(--text-muted); grid-column: 1; }
+.error-list .btn { grid-row: 1 / span 2; grid-column: 2; align-self: center; }
+
+.flow { list-style: none; margin: 0 0 var(--sp-5); padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; counter-reset: f; }
+.flow li { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); font-size: var(--fs-sm); }
+.flow li:not(:last-child)::after { content: "→"; position: absolute; right: -11px; top: 50%; transform: translateY(-50%); color: var(--text-faint); background: var(--bg); line-height: 1; padding: 2px 0; }
+.flow-k { font-weight: 600; color: var(--accent); }
+.flow-src { margin-top: auto; font-size: var(--fs-2xs); color: var(--text-faint); }
+@media (max-width: 1000px) {
+  .flow { grid-template-columns: 1fr; }
+  .flow li:not(:last-child)::after { content: "↓"; right: auto; left: 20px; top: auto; bottom: -13px; transform: none; }
+}
+.method-grid { align-items: start; }
+.repro { margin-top: var(--sp-5); }
+.notes { margin: 0; padding-left: 1.2em; font-size: var(--fs-sm); color: var(--text-muted); display: flex; flex-direction: column; gap: 10px; }
+.notes strong { color: var(--text); }
